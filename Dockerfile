@@ -1,6 +1,7 @@
 FROM ubuntu:latest
 SHELL ["/bin/bash", "-c"]
 
+RUN echo "Install dependencies"
 
 RUN apt-get update && \
     apt-get -y install swig3.0 \
@@ -13,16 +14,20 @@ RUN apt-get update && \
                        pkg-config \
                        software-properties-common
 
+RUN echo "Install gcc5 g++-5"
+
 RUN add-apt-repository ppa:ubuntu-toolchain-r/test
 RUN apt-get update
-RUN apt-get install gcc-5 g++-5
+RUN apt-get -y install  gcc-5 g++-5
 
-# Install Golang
+RUN echo "Install Golang"
+
 RUN wget https://dl.google.com/go/go1.13.7.linux-amd64.tar.gz \
     && tar -C /usr/local -xzf go1.13.7.linux-amd64.tar.gz \
     && export PATH=$PATH:/usr/local/go/bin \
     && source $HOME/.profile
 
+RUN echo "Install Go-QRL"
 
 RUN go get -d github.com/theQRL/go-qrl \
     && cd $GOPATH/src/github.com/theQRL/go-qrl \
