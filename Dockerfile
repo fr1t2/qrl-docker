@@ -12,6 +12,7 @@ RUN apt-get update && \
                        libboost-dev \
                        ninja-build \
                        pkg-config \
+                       wget \
                        software-properties-common
 
 RUN echo "Install gcc5 g++-5"
