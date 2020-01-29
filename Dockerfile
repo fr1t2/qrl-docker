@@ -10,7 +10,8 @@ RUN apt-get update && \
                        libhwloc-dev \
                        libboost-dev \
                        ninja-build \
-                       pkg-config
+                       pkg-config \
+                       software-properties-common
 
 RUN add-apt-repository ppa:ubuntu-toolchain-r/test
 RUN apt-get update
