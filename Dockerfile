@@ -24,7 +24,7 @@ RUN wget https://dl.google.com/go/go1.13.7.linux-amd64.tar.gz \
 
 
 RUN go get -d github.com/theQRL/go-qrl \
-    && cd $GOPATH/src/github.com/theQRL/go-qrl
+    && cd $GOPATH/src/github.com/theQRL/go-qrl \
     && make build
 
 
