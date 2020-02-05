@@ -1,4 +1,4 @@
-FROM ubuntu:latest
++FROM ubuntu:latest
 SHELL ["/bin/bash", "-c"]
 
 RUN apt-get update && \
@@ -30,6 +30,7 @@ RUN groupadd -g 999 qrl && \
     useradd -r -u 999 -g qrl qrl
 
 RUN mkdir /home/qrl
+RUN mkdir /home/.qrl/data/state
 RUN chown -R qrl:qrl /home/qrl
 ENV HOME=/home/qrl
 WORKDIR $HOME
