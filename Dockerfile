@@ -1,6 +1,10 @@
 FROM ubuntu:latest
 SHELL ["/bin/bash", "-c"]
 
+LABEL version="1.0"
+LABEL QRLnodeVersion="python"
+LABEL info="QRL node running on Ubuntu 18.04 and auto-syncing the state files to Feb 2, 2020"
+
 RUN apt-get update && \
     apt-get -y install swig3.0 \
                       python3-dev \
@@ -28,8 +32,9 @@ RUN pip3 install -U setupTools
 RUN pip3 install -U qrl
 
 RUN groupadd -g 999 qrl && \
-    useradd -r -u 999 -g qrl qrl \
-    useradd -r -u 999 -g qrl sudo
+    useradd -r -u 999 -g qrl qrl
+
+RUN adduser qrl sudo
 
 RUN mkdir -p /home/qrl/.qrl/data
 
