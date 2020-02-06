@@ -34,7 +34,7 @@ RUN groupadd -g 999 qrl && \
 RUN mkdir -p /home/qrl/.qrl/data
 
 RUN wget -O /tmp/qrlNodeState.tar.gz -c https://www.dropbox.com/s/pctv4yjuy1kxy6j/qrlNodeState_2-5-2020.tar.gz?dl=0
-RUN tar -xvzf /tmp/qrlNodeState.tar.gz -C /home/qrl/.qrl/data
+RUN tar -xvzf /tmp/qrlNodeState.tar.gz -C /home/qrl/.qrl/data && rm -rf /tmp/qrlNodeState.tar.gz
 COPY ./config.yml /home/qrl/.qrl
 # COPY ./state /home/qrl/.qrl/data
 
@@ -73,9 +73,4 @@ EXPOSE 19000
 ENV LC_ALL C.UTF-8
 ENV LANG C.UTF-8
 
-COPY start_qrl start_qrl
-COPY qrl_walletd qrl_walletd
-COPY start_qrl_walletAPI.sh start_qrl_walletAPI.sh
-CMD /home/qrl/start_qrl_walletAPI.sh
-
-#ENTRYPOINT start_qrl
+ENTRYPOINT start_qrl
