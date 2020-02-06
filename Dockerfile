@@ -1,4 +1,4 @@
-+FROM ubuntu:latest
+FROM ubuntu:latest
 SHELL ["/bin/bash", "-c"]
 
 RUN apt-get update && \
@@ -12,6 +12,7 @@ RUN apt-get update && \
                       libhwloc-dev \
                       libboost-dev \
                       wget
+RUN apt-get install -y sudo
 
 RUN cd /usr/local/src \
     && wget https://cmake.org/files/v3.10/cmake-3.10.3.tar.gz \
@@ -27,10 +28,17 @@ RUN pip3 install -U setupTools
 RUN pip3 install -U qrl
 
 RUN groupadd -g 999 qrl && \
-    useradd -r -u 999 -g qrl qrl
+    useradd -r -u 999 -g qrl qrl \
+    useradd -r -u 999 -g qrl sudo
 
-RUN mkdir /home/qrl
-RUN mkdir /home/.qrl/data/state
+RUN mkdir -p /home/qrl/.qrl/data
+
+RUN wget -O /tmp/qrlNodeState.tar.gz -c https://www.dropbox.com/s/pctv4yjuy1kxy6j/qrlNodeState_2-5-2020.tar.gz?dl=0
+RUN tar -xvzf /tmp/qrlNodeState.tar.gz -C /home/qrl/.qrl/data
+COPY ./config.yml /home/qrl/.qrl
+# COPY ./state /home/qrl/.qrl/data
+
+
 RUN chown -R qrl:qrl /home/qrl
 ENV HOME=/home/qrl
 WORKDIR $HOME
@@ -65,4 +73,9 @@ EXPOSE 19000
 ENV LC_ALL C.UTF-8
 ENV LANG C.UTF-8
 
-ENTRYPOINT start_qrl
+COPY start_qrl start_qrl
+COPY qrl_walletd qrl_walletd
+COPY start_qrl_walletAPI.sh start_qrl_walletAPI.sh
+CMD /home/qrl/start_qrl_walletAPI.sh
+
+#ENTRYPOINT start_qrl
